@@ -461,6 +461,94 @@ namespace ColvirAutoTests
 
             }
         } // Конец метода
+
+        [TestMethod]
+        [TestCategory("/ekassir/client/detail/list")]
+        public async Task TestNotSuccessDetailList()
+        {
+
+            using (HttpClient client = new HttpClient())
+            {
+                //Создаю тело запроса
+                var RequestBody = new
+                {
+                    iin = "111111111111"
+                    
+                };
+
+                var json = JsonConvert.SerializeObject(RequestBody);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                //Отправля Post запрос с телом запроса 
+                client.DefaultRequestHeaders.Add("apiKey", "a785d625-d57b-4a1a-9ef4-8b83568dd228");
+                HttpResponseMessage response = await client.PostAsync(Colvir.GetCustomerNameEndPoint(), content);
+
+
+                //Проверяю статус код ответа
+                Assert.AreNotEqual(HttpStatusCode.OK, response.StatusCode);
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
+
+                    Assert.AreNotEqual("OK", parsedResponse.message.ToString());
+                    Assert.AreNotEqual(200, (int)parsedResponse.status);
+
+
+
+
+                    Console.WriteLine(parsedResponse);
+
+
+                }
+
+
+            }
+        } // Конец метода
+
+        [TestMethod]
+        [TestCategory("/ekassir/client/detail/list")]
+        public async Task TestNotAuthDetailList()
+        {
+
+            using (HttpClient client = new HttpClient())
+            {
+                //Создаю тело запроса
+                var RequestBody = new
+                {
+                    iin = "111111111111",
+                    term_id = "204204"
+                };
+
+                var json = JsonConvert.SerializeObject(RequestBody);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                //Отправля Post запрос с телом запроса 
+                client.DefaultRequestHeaders.Add("apiKey", "B785d625-d57b-4a1a-9ef4-8b83568dd228");
+                HttpResponseMessage response = await client.PostAsync(Colvir.GetCustomerNameEndPoint(), content);
+
+
+                //Проверяю статус код ответа
+                Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
+                    Assert.AreEqual(401, (int)parsedResponse.status);
+                    Assert.AreEqual("Not Authorization", (String)parsedResponse.message);
+
+
+                    
+
+
+
+
+                    Console.WriteLine(parsedResponse);
+
+
+                }
+
+
+            }
+        } // Конец метода
     }
 }
 
