@@ -81,7 +81,7 @@ namespace ColvirAutoTests
                     string responseContent = await response.Content.ReadAsStringAsync();
                     dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
 
-                    //Проверяю параметр name
+                   
                     Assert.AreEqual("OK", parsedResponse.message.ToString());
 
 
