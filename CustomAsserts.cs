@@ -10,6 +10,16 @@ namespace TestProject1
 {
     class CustomAsserts
     {
+        public static bool IsArray(JValue value)
+        {
+            return value.Type == JTokenType.Array;
+        }
+
+        public static bool IsObject(JValue value)
+        {
+            return value.Type == JTokenType.Object;
+        }
+
         public static bool IsBoolean(JValue value)
         {
             return value.Type == JTokenType.Boolean;
@@ -37,6 +47,15 @@ namespace TestProject1
         public void CheckIsNumeric(JValue value)
         {
             Assert.IsTrue(CustomAsserts.IsNumeric(value));
+        }
+        public void CheckIsArray(JValue value)
+        {
+            Assert.IsTrue(CustomAsserts.IsArray(value));
+        }
+
+        public void CheckIsObject(JValue value)
+        {
+            Assert.IsTrue(CustomAsserts.IsObject(value));
         }
     }
 }
