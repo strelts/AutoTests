@@ -21,9 +21,14 @@ namespace ColvirAutoTests
         static String loansEndpoint = ColvirUrl + "/ekassir/client/loans";
         //Path запроса для поиска информации по счетам по иин
         static String accListEndpoint = ColvirUrl + "/ekassir/client/acclist";
+        static String customerNameEndpoint = ColvirUrl + "/ekassir/client/detail/list";
         public String GetColvirUrl()
         {
             return ColvirUrl;
+        }
+        public String GetCustomerNameEndPoint()
+        {
+            return customerNameEndpoint;
         }
         public String GetLoansEndPoint()
         {
@@ -50,7 +55,7 @@ namespace ColvirAutoTests
 
         [TestMethod]
         [TestCategory("POST /ekassir/client/loans")]
-        public async Task TestSuccessCheckByIIN()
+        public async Task TestSuccessLoans()
         {
 
             using (HttpClient client = new HttpClient())
@@ -293,7 +298,7 @@ namespace ColvirAutoTests
                     string responseContent = await response.Content.ReadAsStringAsync();
                     dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
 
-                    
+
                     Assert.AreEqual("OK", parsedResponse.message.ToString());
 
 
@@ -342,16 +347,16 @@ namespace ColvirAutoTests
 
                 //Проверяю статус код ответа
                 Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
-                if (response.StatusCode == HttpStatusCode.Unauthorized) 
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
                     dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
                     Assert.AreEqual(401, (int)parsedResponse.status, "Ожидаемый код не 401");
-                   
+
                     Assert.AreEqual("Not Autrozation", (String)parsedResponse.message, "Ожидаемое сообщение не соответствует.");
                     Console.WriteLine(parsedResponse);
                 }
-                
+
 
 
             }
@@ -368,7 +373,7 @@ namespace ColvirAutoTests
                 var RequestBody = new
                 {
                     iin = "111111111111"
-                   
+
                 };
 
                 var json = JsonConvert.SerializeObject(RequestBody);
@@ -384,11 +389,73 @@ namespace ColvirAutoTests
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
                     dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
-                   
-                    
+
+
                     Assert.AreNotEqual("OK", parsedResponse.message.ToString());
 
-                   
+
+                }
+
+
+            }
+        } // Конец метода
+    }
+
+    [TestClass]
+    public sealed class DetailListTests
+    {
+        Colvir Colvir = new Colvir();
+        CustomAsserts pAssert = new CustomAsserts();
+
+
+
+        [TestMethod]
+        [TestCategory("/ekassir/client/detail/list")]
+        public async Task TestSuccessDetailList()
+        {
+
+            using (HttpClient client = new HttpClient())
+            {
+                //Создаю тело запроса
+                var RequestBody = new
+                {
+                    iin = "111111111111",
+                    term_id = "204204"
+                };
+
+                var json = JsonConvert.SerializeObject(RequestBody);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                //Отправля Post запрос с телом запроса 
+                client.DefaultRequestHeaders.Add("apiKey", "a785d625-d57b-4a1a-9ef4-8b83568dd228");
+                HttpResponseMessage response = await client.PostAsync(Colvir.GetCustomerNameEndPoint(), content);
+
+
+                //Проверяю статус код ответа
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
+
+                    Assert.AreEqual("OK", parsedResponse.message.ToString());
+
+
+                    //Проверка типа полученных данных в ответе
+                    pAssert.CheckIsNumeric(parsedResponse.status);
+                    pAssert.CheckIsString(parsedResponse.message);
+                    pAssert.CheckIsString(parsedResponse.code);
+                    pAssert.CheckIsString(parsedResponse.request_id);
+                    pAssert.CheckIsString(parsedResponse.version);
+                    pAssert.CheckIsString(parsedResponse.timestamp);
+                    pAssert.CheckIsString(parsedResponse.request_url);
+                    Assert.AreEqual(200, (int)parsedResponse.status);
+
+
+
+
+                    Console.WriteLine(parsedResponse);
+
+
                 }
 
 
@@ -396,3 +463,5 @@ namespace ColvirAutoTests
         } // Конец метода
     }
 }
+
+    
