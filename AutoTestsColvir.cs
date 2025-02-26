@@ -8,6 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
+using TestProject1;
 
 namespace ColvirAutoTests
 {
@@ -70,10 +71,12 @@ namespace ColvirAutoTests
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
                     dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
-
+                    
                     //Проверяю параметр name
                     Assert.AreEqual("OK", parsedResponse.message.ToString());
                     Assert.AreEqual(200, (int)parsedResponse.status);
+                   
+                   
                     Console.WriteLine(parsedResponse);
              
 

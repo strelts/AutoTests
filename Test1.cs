@@ -50,14 +50,12 @@ namespace TestProject1
                 if (response.IsSuccessStatusCode)
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
-                    dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
-                    
-                    //Проверяю параметр name
-                   Assert.AreEqual("Artem", parsedResponse.name.ToString());
-                   Assert.AreEqual(39, (int)parsedResponse.age);
-                    Console.WriteLine(parsedResponse);
-
-                }
+                   
+                        dynamic parsedResponse = JsonConvert.DeserializeObject<ResponseLoans>(responseContent);
+                        Assert.AreEqual("Artem", parsedResponse.name.ToString());
+                        Assert.AreEqual(39, (int)parsedResponse.age);
+                        Console.WriteLine(parsedResponse);
+                    }
 
 
             }
