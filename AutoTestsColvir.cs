@@ -82,8 +82,10 @@ namespace ColvirAutoTests
                    
                     pAssert.CheckIsNumeric(parsedResponse.status);
                     pAssert.CheckIsString(parsedResponse.message);
+                    pAssert.CheckIsNumeric(parsedResponse.data.loan_sum);
                     Assert.AreEqual(200, (int)parsedResponse.status);
-                    
+                   
+
 
                     Console.WriteLine(parsedResponse);
              
@@ -199,6 +201,7 @@ namespace ColvirAutoTests
                     Assert.AreNotEqual("OK", parsedResponse.message.ToString());
                     Assert.AreNotEqual(200, (int)parsedResponse.status);
                     Console.WriteLine(parsedResponse);
+                    
 
 
                 }

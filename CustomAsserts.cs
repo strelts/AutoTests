@@ -10,12 +10,12 @@ namespace TestProject1
 {
     class CustomAsserts
     {
-        public static bool IsArray(JValue value)
+        public static bool IsArray(JValue value)//не стабильный
         {
             return value.Type == JTokenType.Array;
         }
 
-        public static bool IsObject(JValue value)
+        public static bool IsObject(JValue value) //не стабильный
         {
             return value.Type == JTokenType.Object;
         }
