@@ -9,9 +9,11 @@ using Newtonsoft.Json;
 using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using TestProject1;
+using Newtonsoft.Json.Linq;
 
 namespace ColvirAutoTests
 {
+    
     public class Colvir
     {   //Адрес сервиса колвир
         static String ColvirUrl = "http://localhost:8080"; 
@@ -42,6 +44,7 @@ namespace ColvirAutoTests
     public sealed class ColvirAutoTests
     {
         Colvir Colvir = new Colvir();
+        CustomAsserts pAssert = new CustomAsserts();
 
        
 
@@ -74,9 +77,14 @@ namespace ColvirAutoTests
                     
                     //Проверяю параметр name
                     Assert.AreEqual("OK", parsedResponse.message.ToString());
+                   
+
+                   
+                    pAssert.CheckIsNumeric(parsedResponse.status);
+                    pAssert.CheckIsString(parsedResponse.message);
                     Assert.AreEqual(200, (int)parsedResponse.status);
-                   
-                   
+                    
+
                     Console.WriteLine(parsedResponse);
              
 
