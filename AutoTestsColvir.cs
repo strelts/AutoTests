@@ -85,6 +85,7 @@ namespace ColvirAutoTests
                     pAssert.CheckIsNumeric(parsedResponse.data.loan_sum);
                     Assert.AreEqual(200, (int)parsedResponse.status);
                    
+                   
 
 
                     Console.WriteLine(parsedResponse);
@@ -122,7 +123,7 @@ namespace ColvirAutoTests
                     string responseContent = await response.Content.ReadAsStringAsync();
                     dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
 
-                    //Проверяю параметр name
+                  
                     Assert.AreNotEqual("OK", parsedResponse.message.ToString());
                     Assert.AreNotEqual(200, (int)parsedResponse.status);
                     Console.WriteLine(parsedResponse);
@@ -159,7 +160,7 @@ namespace ColvirAutoTests
                     string responseContent = await response.Content.ReadAsStringAsync();
                     dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
 
-                    //Проверяю параметр name
+                   
                     Assert.AreNotEqual("OK", parsedResponse.message.ToString());
                     Assert.AreNotEqual(200, (int)parsedResponse.status);
                     Console.WriteLine(parsedResponse);
@@ -197,7 +198,7 @@ namespace ColvirAutoTests
                     string responseContent = await response.Content.ReadAsStringAsync();
                     dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
 
-                    //Проверяю параметр name
+                    
                     Assert.AreNotEqual("OK", parsedResponse.message.ToString());
                     Assert.AreNotEqual(200, (int)parsedResponse.status);
                     Console.WriteLine(parsedResponse);
@@ -236,7 +237,7 @@ namespace ColvirAutoTests
                     string responseContent = await response.Content.ReadAsStringAsync();
                     dynamic parsedResponse = JsonConvert.DeserializeObject(responseContent);
 
-                    //Проверяю параметр name
+                   
                     Assert.AreNotEqual("OK", parsedResponse.message.ToString());
                     Assert.AreNotEqual(200, (int)parsedResponse.status);
                     Console.WriteLine(parsedResponse);
